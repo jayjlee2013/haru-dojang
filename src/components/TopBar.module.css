@@ -1,0 +1,127 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 12px;
+}
+
+.beltInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.beltBadge {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid var(--color-border);
+}
+
+.belt-white {
+  background: var(--belt-white);
+}
+
+.belt-yellow {
+  background: var(--belt-yellow);
+}
+
+.belt-green {
+  background: var(--belt-green);
+}
+
+.belt-black {
+  background: var(--belt-black);
+}
+
+.belt-master {
+  background: var(--color-accent);
+}
+
+.beltLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.rightGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stampCount {
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+.journalButton {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.journalIcon {
+  width: 14px;
+  height: 16px;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 2px;
+}
+
+.unreadDot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.settingsButton {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.settingsIcon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+}
+
+.settingsIcon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 50%;
+}
+
+.settingsIcon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--color-ink);
+}

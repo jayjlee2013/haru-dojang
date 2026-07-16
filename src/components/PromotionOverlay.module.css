@@ -1,0 +1,71 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  z-index: 20;
+  background: var(--belt-from, var(--belt-white));
+  transition: background 1.2s ease;
+}
+
+.overlay.transitioned {
+  background: var(--belt-to, var(--belt-white));
+}
+
+.beltBar {
+  width: 120px;
+  height: 14px;
+  border-radius: 7px;
+  margin-bottom: 28px;
+  background: #ffffff;
+  opacity: 0.9;
+}
+
+.message {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 28px;
+  color: var(--overlay-ink, var(--color-ink));
+}
+
+.journalCard {
+  max-width: 320px;
+  margin-bottom: 20px;
+}
+
+.journalTitle {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  margin: 0 0 12px;
+  color: var(--overlay-ink, var(--color-ink));
+}
+
+.journalText {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.9;
+  white-space: pre-line;
+  color: var(--overlay-ink, var(--color-ink));
+}
+
+.unlockNotice {
+  font-size: 13px;
+  color: var(--overlay-ink, var(--color-ink-soft));
+  opacity: 0.75;
+  margin: 0 0 24px;
+}
+
+.button {
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}

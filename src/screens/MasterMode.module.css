@@ -1,0 +1,69 @@
+.screen {
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+.emptyMessage {
+  margin: 24px 20px 16px;
+  font-size: 15px;
+  color: var(--color-ink);
+}
+
+.emptyButton {
+  margin: 0 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.journalCard {
+  margin: 12px 20px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-bg);
+}
+
+.journalPrompt {
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+
+.journalInput {
+  width: 100%;
+  min-height: 72px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  background: transparent;
+  color: inherit;
+  resize: vertical;
+}
+
+.journalSaved {
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+
+.journalButton {
+  margin-top: 10px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.journalCount {
+  margin: 16px 20px 0;
+  font-size: 12px;
+  color: var(--color-ink-soft);
+}

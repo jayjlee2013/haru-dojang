@@ -1,0 +1,77 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.stampButton {
+  width: 100%;
+  padding: 16px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.stampButton:active {
+  transform: scale(0.97);
+}
+
+.stamping {
+  animation: stampSlam 0.5s ease;
+}
+
+@keyframes stampSlam {
+  0% {
+    transform: scale(1.4) rotate(-8deg);
+    opacity: 0.3;
+  }
+  40% {
+    transform: scale(0.95) rotate(-2deg);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.05) rotate(1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.doneButton {
+  width: 100%;
+  padding: 16px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-ink-soft);
+  background: var(--color-border);
+  border: none;
+  border-radius: 12px;
+}
+
+.subtext {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+.reaction {
+  margin-top: 12px;
+  font-size: 15px;
+  color: var(--color-ink);
+  animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

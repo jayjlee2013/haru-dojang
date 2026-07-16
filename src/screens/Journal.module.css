@@ -1,0 +1,76 @@
+.screen {
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 12px;
+}
+
+.backButton {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--color-ink);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.counter {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 8px 20px 40px;
+}
+
+.entry {
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-bg);
+}
+
+.entryTitle {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  margin: 0 0 12px;
+}
+
+.entryText {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.9;
+  white-space: pre-line;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.lockedEntry {
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.lockedMark {
+  font-size: 20px;
+  letter-spacing: 4px;
+  color: var(--color-locked);
+  margin: 0 0 8px;
+}
+
+.lockedHint {
+  font-size: 13px;
+  color: var(--color-ink-soft);
+  margin: 0;
+}

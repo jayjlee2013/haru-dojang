@@ -1,0 +1,73 @@
+.card {
+  margin: 12px 20px;
+  padding: 24px 20px;
+  border: 1px solid var(--boss-border);
+  border-radius: 16px;
+  background: var(--boss-bg);
+  color: var(--boss-ink);
+}
+
+.label {
+  font-size: 12px;
+  color: var(--boss-ink-soft);
+  margin: 0 0 6px;
+}
+
+.name {
+  font-size: 20px;
+  margin: 0 0 6px;
+  color: var(--boss-ink);
+}
+
+.condition {
+  font-size: 14px;
+  color: var(--boss-ink-soft);
+  margin: 0 0 4px;
+}
+
+.circleRow {
+  display: flex;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--boss-circle-border);
+  background: transparent;
+}
+
+.circleFilled {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.entryNotice {
+  font-size: 13px;
+  color: var(--boss-ink-soft);
+  margin: 0 0 14px;
+}
+
+.daySuccess {
+  font-size: 13px;
+  color: var(--boss-ink-soft);
+  margin: 0 0 14px;
+}
+
+.brokenNotice {
+  margin: 0 0 14px;
+}
+
+.brokenText {
+  font-size: 14px;
+  color: var(--boss-ink);
+  margin: 0 0 4px;
+}
+
+.retryText {
+  font-size: 13px;
+  color: var(--boss-ink-soft);
+  margin: 0;
+}

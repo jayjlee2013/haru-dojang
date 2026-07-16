@@ -1,0 +1,76 @@
+.path {
+  margin: 24px 20px;
+}
+
+.heading {
+  font-size: 14px;
+  color: var(--color-ink-soft);
+  margin: 0 0 10px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.currentRow {
+  background: var(--color-border);
+}
+
+.stampCircle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+  background: transparent;
+  transform: rotate(-9deg);
+  flex-shrink: 0;
+}
+
+.currentMarker {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.lockedMarker {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px dashed var(--color-locked);
+  flex-shrink: 0;
+}
+
+.gateName {
+  flex: 1;
+  font-size: 14px;
+}
+
+.lockedName {
+  color: var(--color-locked);
+}
+
+.status {
+  font-size: 12px;
+  color: var(--color-ink-soft);
+}
+
+.ellipsis {
+  text-align: center;
+  color: var(--color-locked);
+  margin: 4px 0 0;
+}
