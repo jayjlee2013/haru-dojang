@@ -70,11 +70,10 @@
   cursor: pointer;
 }
 
-.journalIcon {
-  width: 14px;
+.icon {
+  width: 16px;
   height: 16px;
-  border: 1.5px solid var(--color-ink);
-  border-radius: 2px;
+  color: var(--color-ink);
 }
 
 .unreadDot {
@@ -100,28 +99,3 @@
   cursor: pointer;
 }
 
-.settingsIcon {
-  position: relative;
-  width: 14px;
-  height: 14px;
-}
-
-.settingsIcon::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 1.5px solid var(--color-ink);
-  border-radius: 50%;
-}
-
-.settingsIcon::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 4px;
-  height: 4px;
-  margin: -2px 0 0 -2px;
-  border-radius: 50%;
-  background: var(--color-ink);
-}
