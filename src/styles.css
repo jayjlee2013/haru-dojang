@@ -2,9 +2,12 @@
   --color-bg: #ffffff;
   --color-ink: #1a1a1a;
   --color-ink-soft: #5c5c5c;
-  --color-accent: #d85a30;
+  /* 인주색. 흰 글자를 얹었을 때 WCAG AA(4.5:1)를 넘도록 톤을 잡았다 —
+     더 밝게 하면 버튼 글자가 흐려진다. */
+  --color-accent: #c9502a;
   --color-border: #e6e2dc;
-  --color-locked: #b8b3aa;
+  /* 잠긴 관문·일지의 흐린 표시. 흐릿하되 "거기 뭔가 있다"는 건 보여야 하므로 3:1 이상 유지. */
+  --color-locked: #8f8a81;
   /* 인주색 버튼 위에 올라가는 글자색. 배경(--color-accent)이 다크모드에서도
      동일하게 유지되므로 이 값도 테마와 무관하게 고정한다. */
   --color-on-accent: #ffffff;
@@ -39,7 +42,7 @@
     --color-ink: #f2efe9;
     --color-ink-soft: #a8a29b;
     --color-border: #35322d;
-    --color-locked: #57524b;
+    --color-locked: #7a746b;
     --color-overlay-bg: rgba(16, 15, 13, 0.97);
   }
 }
