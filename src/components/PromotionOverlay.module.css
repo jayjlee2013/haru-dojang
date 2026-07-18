@@ -33,7 +33,7 @@
 }
 
 .journalCard {
-  max-width: 320px;
+  max-width: 380px;
   margin-bottom: 20px;
 }
 
@@ -50,6 +50,8 @@
   line-height: 1.9;
   white-space: pre-line;
   color: var(--overlay-ink, var(--color-ink));
+  /* 여러 줄 본문은 왼쪽 정렬 (JournalRevealCard와 동일 규칙). */
+  text-align: left;
 }
 
 .unlockNotice {

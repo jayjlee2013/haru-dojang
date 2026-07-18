@@ -27,7 +27,7 @@
 }
 
 .journalCard {
-  max-width: 320px;
+  max-width: 380px;
   margin-bottom: 24px;
 }
 
@@ -43,6 +43,8 @@
   line-height: 1.9;
   white-space: pre-line;
   color: var(--color-ink);
+  /* 여러 줄 본문은 왼쪽 정렬. 가운데 정렬이면 줄 끝이 들쭉날쭉해 읽기 불편하다. */
+  text-align: left;
 }
 
 .button {

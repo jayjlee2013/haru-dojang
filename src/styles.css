@@ -55,6 +55,10 @@ body {
   background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  /* 한국어는 어절 단위로 줄을 바꾼다. 기본값(normal)이면 "것부/터."처럼
+     단어 중간이 잘려 읽기 불편하다. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 #root {
