@@ -58,8 +58,9 @@
 
 .journalButton {
   position: relative;
-  width: 32px;
-  height: 32px;
+  /* 손가락 터치 타겟 최소 44px (iOS HIG). 아이콘 자체는 16px로 작게 유지한다. */
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,8 +88,8 @@
 }
 
 .settingsButton {
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;

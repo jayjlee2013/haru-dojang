@@ -53,7 +53,8 @@
 
 .journalButton {
   margin-top: 10px;
-  padding: 10px 16px;
+  min-height: 44px;
+  padding: 10px 18px;
   border: none;
   border-radius: 8px;
   background: var(--color-accent);
