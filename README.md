@@ -52,3 +52,11 @@
 - 앱 이름 최종 확정 (현재 가칭 "하루도장")
 - 알림(리마인더) 방식 — PWA 푸시는 M5에서 검토, 초기에는 없이 시작
 - 하루 경계 시각 04:00 기본값 — 설정에서 변경 가능하게 할지
+
+## 배포됨
+
+**https://jayjlee2013.github.io/haru-dojang/**
+
+`master` 브랜치에 push할 때마다 GitHub Actions가 자동으로 테스트→빌드→배포한다
+(`.github/workflows/deploy.yml`). 2026-07-20 첫 배포 완료 — HTTP 200, JS/CSS/manifest/서비스워커
+전부 정상 서빙 확인.
