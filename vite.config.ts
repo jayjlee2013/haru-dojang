@@ -4,6 +4,9 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  // host: true — 같은 와이파이의 다른 기기(폰 등)에서 개발 서버에 접속할 수 있게 한다.
+  // 기본값(localhost만 허용)이면 폰에서 열리지 않는다. 프로덕션 빌드에는 영향 없음.
+  server: { host: true },
   plugins: [
     react(),
     VitePWA({
