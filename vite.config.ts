@@ -8,6 +8,9 @@ import { VitePWA } from 'vite-plugin-pwa'
 const IS_EN = process.env.VITE_LANG === 'en'
 const GH_PAGES_BASE = IS_EN ? '/haru-dojang/en/' : '/haru-dojang/'
 const OUT_DIR = IS_EN ? 'dist/en' : 'dist'
+const SITE_ORIGIN = 'https://jayjlee2013.github.io'
+const EN_TITLE = 'Haru Dojang'
+const EN_DESCRIPTION = 'A dojang-style habit app: clear one small daily gate at a time.'
 
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? GH_PAGES_BASE : '/',
@@ -17,6 +20,26 @@ export default defineConfig(({ command }) => ({
   server: { host: true },
   plugins: [
     react(),
+    // index.html은 콘텐츠 i18n 시스템 밖(빌드 시 정적 복사)이라, 영어판에서
+    // 탭 제목·링크 미리보기(OG/Twitter)가 한국어로 남는 걸 여기서 고쳐준다.
+    {
+      name: 'html-lang-meta',
+      transformIndexHtml(html: string): string {
+        if (!IS_EN) return html
+        const enUrl = `${SITE_ORIGIN}${GH_PAGES_BASE}`
+        return html
+          .replace('<html lang="ko">', '<html lang="en">')
+          .replace(/<title>[^<]*<\/title>/, `<title>${EN_TITLE}</title>`)
+          .replace(/(name="description" content=")[^"]*(")/, `$1${EN_DESCRIPTION}$2`)
+          .replace(/(property="og:title" content=")[^"]*(")/, `$1${EN_TITLE}$2`)
+          .replace(/(property="og:description" content=")[^"]*(")/, `$1${EN_DESCRIPTION}$2`)
+          .replace(/(property="og:url" content=")[^"]*(")/, `$1${enUrl}$2`)
+          .replace(/(property="og:image" content=")[^"]*(")/, `$1${enUrl}og.png$2`)
+          .replace(/(name="twitter:title" content=")[^"]*(")/, `$1${EN_TITLE}$2`)
+          .replace(/(name="twitter:description" content=")[^"]*(")/, `$1${EN_DESCRIPTION}$2`)
+          .replace(/(name="twitter:image" content=")[^"]*(")/, `$1${enUrl}og.png$2`)
+      }
+    },
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg'],
