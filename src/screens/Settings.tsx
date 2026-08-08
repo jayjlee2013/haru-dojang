@@ -15,7 +15,9 @@ import {
   SETTINGS_RESET_STEP1_SUBTEXT,
   SETTINGS_RESET_STEP2_TITLE,
   SETTINGS_RESET_CONFIRM_BUTTON,
-  SETTINGS_RESET_CANCEL_BUTTON
+  SETTINGS_RESET_CANCEL_BUTTON,
+  BACK_TO_DOJANG,
+  appInfoLabel
 } from '../content/microcopy'
 import type { SaveData } from '../domain/types'
 import styles from './Settings.module.css'
@@ -51,6 +53,7 @@ export function Settings({ onBack }: SettingsProps): JSX.Element {
   const setDayBoundaryHour = useGameStore((s) => s.setDayBoundaryHour)
   const importSave = useGameStore((s) => s.importSave)
   const resetSave = useGameStore((s) => s.resetSave)
+  const lang = useGameStore((s) => s.lang)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [importError, setImportError] = useState<string | null>(null)
@@ -76,16 +79,16 @@ export function Settings({ onBack }: SettingsProps): JSX.Element {
         const json: unknown = JSON.parse(String(reader.result))
         const parsed = parseSaveData(json)
         if (parsed === null) {
-          setImportError(SETTINGS_IMPORT_FAILURE)
+          setImportError(SETTINGS_IMPORT_FAILURE[lang])
           return
         }
         setPendingImport(parsed)
       } catch {
-        setImportError(SETTINGS_IMPORT_FAILURE)
+        setImportError(SETTINGS_IMPORT_FAILURE[lang])
       }
     }
     reader.onerror = () => {
-      setImportError(SETTINGS_IMPORT_FAILURE)
+      setImportError(SETTINGS_IMPORT_FAILURE[lang])
     }
     reader.readAsText(file)
   }
@@ -111,15 +114,15 @@ export function Settings({ onBack }: SettingsProps): JSX.Element {
     <div className={styles.screen}>
       <header className={styles.header}>
         <button className={styles.backButton} onClick={onBack}>
-          도장으로
+          {BACK_TO_DOJANG[lang]}
         </button>
       </header>
 
       <section className={styles.section}>
         <label className={styles.label} htmlFor="day-boundary-hour">
-          {SETTINGS_DAY_BOUNDARY_LABEL}
+          {SETTINGS_DAY_BOUNDARY_LABEL[lang]}
         </label>
-        <p className={styles.subtext}>{SETTINGS_DAY_BOUNDARY_SUBTEXT}</p>
+        <p className={styles.subtext}>{SETTINGS_DAY_BOUNDARY_SUBTEXT[lang]}</p>
         <div className={styles.boundaryRow}>
           <input
             id="day-boundary-hour"
@@ -136,11 +139,11 @@ export function Settings({ onBack }: SettingsProps): JSX.Element {
 
       <section className={styles.section}>
         <button className={styles.actionButton} onClick={handleExport}>
-          {SETTINGS_EXPORT_LABEL}
+          {SETTINGS_EXPORT_LABEL[lang]}
         </button>
 
         <label className={styles.actionButton}>
-          {SETTINGS_IMPORT_LABEL}
+          {SETTINGS_IMPORT_LABEL[lang]}
           <input
             ref={fileInputRef}
             className={styles.hiddenFileInput}
@@ -154,13 +157,13 @@ export function Settings({ onBack }: SettingsProps): JSX.Element {
 
         {pendingImport !== null && (
           <div className={styles.confirmBox}>
-            <p className={styles.confirmMessage}>{SETTINGS_IMPORT_CONFIRM_MESSAGE}</p>
+            <p className={styles.confirmMessage}>{SETTINGS_IMPORT_CONFIRM_MESSAGE[lang]}</p>
             <div className={styles.confirmActions}>
               <button className={styles.confirmButton} onClick={confirmImport}>
-                {SETTINGS_IMPORT_CONFIRM_BUTTON}
+                {SETTINGS_IMPORT_CONFIRM_BUTTON[lang]}
               </button>
               <button className={styles.cancelButton} onClick={cancelImport}>
-                {SETTINGS_IMPORT_CANCEL_BUTTON}
+                {SETTINGS_IMPORT_CANCEL_BUTTON[lang]}
               </button>
             </div>
           </div>
@@ -170,20 +173,20 @@ export function Settings({ onBack }: SettingsProps): JSX.Element {
       <section className={styles.section}>
         {resetStep === 'idle' && (
           <button className={styles.dangerButton} onClick={() => setResetStep('confirm1')}>
-            {SETTINGS_RESET_STEP1_TITLE}
+            {SETTINGS_RESET_STEP1_TITLE[lang]}
           </button>
         )}
 
         {resetStep === 'confirm1' && (
           <div className={styles.confirmBox}>
-            <p className={styles.confirmMessage}>{SETTINGS_RESET_STEP1_TITLE}</p>
-            <p className={styles.subtext}>{SETTINGS_RESET_STEP1_SUBTEXT}</p>
+            <p className={styles.confirmMessage}>{SETTINGS_RESET_STEP1_TITLE[lang]}</p>
+            <p className={styles.subtext}>{SETTINGS_RESET_STEP1_SUBTEXT[lang]}</p>
             <div className={styles.confirmActions}>
               <button className={styles.confirmButton} onClick={() => setResetStep('confirm2')}>
-                {SETTINGS_RESET_CONFIRM_BUTTON}
+                {SETTINGS_RESET_CONFIRM_BUTTON[lang]}
               </button>
               <button className={styles.cancelButton} onClick={() => setResetStep('idle')}>
-                {SETTINGS_RESET_CANCEL_BUTTON}
+                {SETTINGS_RESET_CANCEL_BUTTON[lang]}
               </button>
             </div>
           </div>
@@ -191,13 +194,13 @@ export function Settings({ onBack }: SettingsProps): JSX.Element {
 
         {resetStep === 'confirm2' && (
           <div className={styles.confirmBox}>
-            <p className={styles.confirmMessage}>{SETTINGS_RESET_STEP2_TITLE}</p>
+            <p className={styles.confirmMessage}>{SETTINGS_RESET_STEP2_TITLE[lang]}</p>
             <div className={styles.confirmActions}>
               <button className={styles.confirmButton} onClick={confirmReset}>
-                {SETTINGS_RESET_CONFIRM_BUTTON}
+                {SETTINGS_RESET_CONFIRM_BUTTON[lang]}
               </button>
               <button className={styles.cancelButton} onClick={() => setResetStep('idle')}>
-                {SETTINGS_RESET_CANCEL_BUTTON}
+                {SETTINGS_RESET_CANCEL_BUTTON[lang]}
               </button>
             </div>
           </div>
@@ -205,7 +208,7 @@ export function Settings({ onBack }: SettingsProps): JSX.Element {
       </section>
 
       <section className={styles.section}>
-        <p className={styles.appInfo}>하루도장 v{APP_VERSION}</p>
+        <p className={styles.appInfo}>{appInfoLabel(APP_VERSION, lang)}</p>
       </section>
     </div>
   )

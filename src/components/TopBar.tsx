@@ -1,5 +1,12 @@
 import { beltName } from '../domain/beltLabels'
-import type { Belt } from '../domain/types'
+import type { Belt, Lang } from '../domain/types'
+import {
+  MASTER_MODE_DAYS_LABEL,
+  TOTAL_STAMPS_LABEL,
+  JOURNAL_ARIA_LABEL,
+  JOURNAL_UNREAD_TITLE,
+  SETTINGS_ARIA_LABEL
+} from '../content/microcopy'
 import styles from './TopBar.module.css'
 
 interface TopBarProps {
@@ -9,6 +16,7 @@ interface TopBarProps {
   onOpenJournal?: () => void
   hasUnreadJournal?: boolean
   onOpenSettings?: () => void
+  lang: Lang
 }
 
 /** 일지(책) 아이콘. stroke는 currentColor라 다크 모드에서도 자동으로 따라간다. */
@@ -66,24 +74,25 @@ export function TopBar({
   masterModeDays,
   onOpenJournal,
   hasUnreadJournal,
-  onOpenSettings
+  onOpenSettings,
+  lang
 }: TopBarProps): JSX.Element {
   return (
     <header className={styles.bar}>
       <div className={styles.beltInfo}>
         <span className={`${styles.beltBadge} ${styles[`belt-${belt}`]}`} />
         <span className={styles.beltLabel}>
-          {masterModeDays !== undefined ? `관장 수련 ${masterModeDays}일째` : beltName(belt)}
+          {masterModeDays !== undefined ? MASTER_MODE_DAYS_LABEL(masterModeDays, lang) : beltName(belt, lang)}
         </span>
       </div>
       <div className={styles.rightGroup}>
-        <div className={styles.stampCount}>도장 {totalStamps}개</div>
+        <div className={styles.stampCount}>{TOTAL_STAMPS_LABEL(totalStamps, lang)}</div>
         {onOpenJournal !== undefined && (
           <button
             className={styles.journalButton}
             onClick={onOpenJournal}
-            aria-label="일지"
-            title={hasUnreadJournal === true ? '읽지 않은 장이 있다' : '일지'}
+            aria-label={JOURNAL_ARIA_LABEL[lang]}
+            title={hasUnreadJournal === true ? JOURNAL_UNREAD_TITLE[lang] : JOURNAL_ARIA_LABEL[lang]}
           >
             <JournalIcon />
             {hasUnreadJournal === true && <span className={styles.unreadDot} />}
@@ -93,8 +102,8 @@ export function TopBar({
           <button
             className={styles.settingsButton}
             onClick={onOpenSettings}
-            aria-label="설정"
-            title="설정"
+            aria-label={SETTINGS_ARIA_LABEL[lang]}
+            title={SETTINGS_ARIA_LABEL[lang]}
           >
             <SettingsIcon />
           </button>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CustomGate, GateDef, GateState } from '../domain/types'
+import type { CustomGate, GateDef, GateState, Lang } from '../domain/types'
 import { judgeCumulative } from '../domain/judge'
 import { GateCard } from '../components/GateCard'
 import { RetrainCard } from '../components/RetrainCard'
@@ -9,7 +9,9 @@ import {
   MASTER_MODE_EMPTY_BUTTON,
   MASTER_MODE_JOURNAL_PROMPT,
   MASTER_MODE_JOURNAL_PLACEHOLDER,
-  MASTER_MODE_JOURNAL_SAVED
+  MASTER_MODE_JOURNAL_SAVED,
+  MASTER_MODE_JOURNAL_COUNT_LABEL,
+  ONBOARDING_NEXT_BUTTON
 } from '../content/microcopy'
 import styles from './MasterMode.module.css'
 
@@ -27,6 +29,7 @@ interface MasterModeProps {
   onStampCustomGate: (gateId: string) => void
   onRetrainCustomGate: (gateId: string) => void
   onSaveJournalEntry: (text: string) => void
+  lang: Lang
 }
 
 /** CustomGate + GateState를 기존 GateCard가 받는 GateDef 형태로 합성한다. */
@@ -45,11 +48,13 @@ function findCurrentCustomGate(
 function JournalEntryForm({
   masterModeDays,
   onSave,
-  onClose
+  onClose,
+  lang
 }: {
   masterModeDays: number
   onSave: (text: string) => void
   onClose: () => void
+  lang: Lang
 }): JSX.Element {
   const [text, setText] = useState('')
   const [saved, setSaved] = useState(false)
@@ -70,9 +75,9 @@ function JournalEntryForm({
   if (saved) {
     return (
       <section className={styles.journalCard}>
-        <p className={styles.journalSaved}>{MASTER_MODE_JOURNAL_SAVED}</p>
+        <p className={styles.journalSaved}>{MASTER_MODE_JOURNAL_SAVED[lang]}</p>
         <button className={styles.journalButton} onClick={handleNext}>
-          다음
+          {ONBOARDING_NEXT_BUTTON[lang]}
         </button>
       </section>
     )
@@ -80,15 +85,15 @@ function JournalEntryForm({
 
   return (
     <section className={styles.journalCard}>
-      <p className={styles.journalPrompt}>{MASTER_MODE_JOURNAL_PROMPT}</p>
+      <p className={styles.journalPrompt}>{MASTER_MODE_JOURNAL_PROMPT[lang]}</p>
       <textarea
         className={styles.journalInput}
         value={text}
-        placeholder={MASTER_MODE_JOURNAL_PLACEHOLDER(masterModeDays)}
+        placeholder={MASTER_MODE_JOURNAL_PLACEHOLDER(masterModeDays, lang)}
         onChange={(e) => setText(e.target.value)}
       />
       <button className={styles.journalButton} onClick={handleNext}>
-        다음
+        {ONBOARDING_NEXT_BUTTON[lang]}
       </button>
     </section>
   )
@@ -109,7 +114,8 @@ export function MasterMode({
   onAddCustomGate,
   onStampCustomGate,
   onRetrainCustomGate,
-  onSaveJournalEntry
+  onSaveJournalEntry,
+  lang
 }: MasterModeProps): JSX.Element {
   const [showJournalPrompt, setShowJournalPrompt] = useState(false)
   const [showEmptyEditor, setShowEmptyEditor] = useState(false)
@@ -134,12 +140,12 @@ export function MasterMode({
   if (currentGate === undefined) {
     return (
       <div className={styles.screen}>
-        <p className={styles.emptyMessage}>{MASTER_MODE_EMPTY_MESSAGE}</p>
+        <p className={styles.emptyMessage}>{MASTER_MODE_EMPTY_MESSAGE[lang]}</p>
         {showEmptyEditor ? (
-          <GateEditor onSubmit={onAddCustomGate} />
+          <GateEditor onSubmit={onAddCustomGate} lang={lang} />
         ) : (
           <button className={styles.emptyButton} onClick={() => setShowEmptyEditor(true)}>
-            {MASTER_MODE_EMPTY_BUTTON}
+            {MASTER_MODE_EMPTY_BUTTON[lang]}
           </button>
         )}
       </div>
@@ -148,7 +154,7 @@ export function MasterMode({
 
   const gateState = customGateStates[currentGate.id]
   if (gateState === undefined) {
-    return <div className={styles.screen}>{MASTER_MODE_EMPTY_MESSAGE}</div>
+    return <div className={styles.screen}>{MASTER_MODE_EMPTY_MESSAGE[lang]}</div>
   }
 
   const isFailed =
@@ -158,7 +164,11 @@ export function MasterMode({
   return (
     <div className={styles.screen}>
       {isFailed ? (
-        <RetrainCard attempts={gateState.attempts} onRetrain={() => onRetrainCustomGate(currentGate.id)} />
+        <RetrainCard
+          attempts={gateState.attempts}
+          onRetrain={() => onRetrainCustomGate(currentGate.id)}
+          lang={lang}
+        />
       ) : (
         <GateCard
           gate={toGateDef(currentGate)}
@@ -168,6 +178,7 @@ export function MasterMode({
           onStamp={() => onStampCustomGate(currentGate.id)}
           lastReactionIndex={lastReactionIndex}
           onReactionShown={onReactionShown}
+          lang={lang}
         />
       )}
 
@@ -176,10 +187,11 @@ export function MasterMode({
           masterModeDays={masterModeDays}
           onSave={handleSaveJournal}
           onClose={() => setShowJournalPrompt(false)}
+          lang={lang}
         />
       )}
 
-      <p className={styles.journalCount}>2권 — 나의 기록 {journalEntryCount}편</p>
+      <p className={styles.journalCount}>{MASTER_MODE_JOURNAL_COUNT_LABEL(journalEntryCount, lang)}</p>
     </div>
   )
 }

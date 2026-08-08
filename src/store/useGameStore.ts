@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { SaveData, GateState, CustomGate, GateRule, GateDef } from '../domain/types'
+import type { SaveData, GateState, CustomGate, GateRule, GateDef, Lang } from '../domain/types'
 import { dayKey } from '../domain/day'
 import { stampGate, judgeGate, retrainGate } from '../domain/judge'
 import { clearGate } from '../domain/progression'
@@ -18,7 +18,9 @@ function effectiveRule(gate: GateDef, save: SaveData): GateDef['rule'] {
   return { type: 'cumulative', required: freeDef.required, windowDays: freeDef.windowDays }
 }
 
-const SAVE_STORAGE_KEY = 'haru-dojang-save'
+// ko/en은 같은 오리진(jayjlee2013.github.io)에서 서로 다른 경로로 배포되므로,
+// 저장 키도 언어별로 분리해 진행 기록이 섞이지 않게 한다.
+const SAVE_STORAGE_KEY = import.meta.env.VITE_LANG === 'en' ? 'haru-dojang-save-en' : 'haru-dojang-save'
 const FIRST_GATE_ID = courses[0].id
 let customGateSequence = 0
 
@@ -63,6 +65,8 @@ interface GameStore {
   currentScreen: Screen
   /** 무한 수련 모드 커스텀 관문의 진행 상태. SaveData(잠긴 타입)에 넣을 수 없어 스토어에 별도로 둔다. */
   customGateStates: Record<string, GateState>
+  /** 표시 언어. 빌드 시점에 고정된다(VITE_LANG) — 런타임 전환 없음, 한/영 별도 배포. */
+  lang: Lang
   stampToday: () => void
   retrainCurrentGate: () => void
   completeOnboarding: () => void
@@ -96,6 +100,7 @@ export const useGameStore = create<GameStore>()(
       lastStampReactionIndex: null,
       currentScreen: 'dojang',
       customGateStates: {},
+      lang: (import.meta.env.VITE_LANG === 'en' ? 'en' : 'ko') as Lang,
 
       stampToday: () => {
         const { save } = get()

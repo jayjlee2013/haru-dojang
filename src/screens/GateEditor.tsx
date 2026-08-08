@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { Lang } from '../domain/types'
 import {
   GATE_EDITOR_TITLE,
   GATE_EDITOR_GUIDE,
@@ -21,16 +22,18 @@ const DEFAULT_WINDOW_DAYS = 7
 
 export interface GateEditorProps {
   onSubmit: (name: string, required: number, windowDays: number) => void
+  lang: Lang
 }
 
 /** 이름/횟수/기간 조합의 유효성을 검사한다. 통과하면 null, 아니면 06문서 원문 오류 문구. */
 export function validateGateForm(
   name: string,
   required: number,
-  windowDays: number
+  windowDays: number,
+  lang: Lang = 'ko'
 ): string | null {
-  if (name.trim().length < 1) return GATE_EDITOR_ERROR_NAME_REQUIRED
-  if (windowDays < required) return GATE_EDITOR_ERROR_WINDOW_TOO_SHORT
+  if (name.trim().length < 1) return GATE_EDITOR_ERROR_NAME_REQUIRED[lang]
+  if (windowDays < required) return GATE_EDITOR_ERROR_WINDOW_TOO_SHORT[lang]
   return null
 }
 
@@ -46,7 +49,7 @@ function clampWindowDays(value: number): number {
  * 자유 관문 / 무한 수련 모드 공용 "관문 만들기" 화면.
  * 필드 3개(이름/횟수/기간)만 받는다 — 06문서 섹션8 스펙 그대로.
  */
-export function GateEditor({ onSubmit }: GateEditorProps): JSX.Element {
+export function GateEditor({ onSubmit, lang }: GateEditorProps): JSX.Element {
   const [name, setName] = useState('')
   const [required, setRequired] = useState(DEFAULT_REQUIRED)
   const [windowDays, setWindowDays] = useState(DEFAULT_WINDOW_DAYS)
@@ -62,7 +65,7 @@ export function GateEditor({ onSubmit }: GateEditorProps): JSX.Element {
   function handleSubmit(e: React.FormEvent): void {
     e.preventDefault()
     const trimmedName = name.trim()
-    const validationError = validateGateForm(trimmedName, required, windowDays)
+    const validationError = validateGateForm(trimmedName, required, windowDays, lang)
     if (validationError !== null) {
       setError(validationError)
       return
@@ -73,12 +76,12 @@ export function GateEditor({ onSubmit }: GateEditorProps): JSX.Element {
 
   return (
     <section className={styles.card}>
-      <h2 className={styles.title}>{GATE_EDITOR_TITLE}</h2>
-      <p className={styles.guide}>{GATE_EDITOR_GUIDE}</p>
+      <h2 className={styles.title}>{GATE_EDITOR_TITLE[lang]}</h2>
+      <p className={styles.guide}>{GATE_EDITOR_GUIDE[lang]}</p>
 
       <form onSubmit={handleSubmit}>
         <label className={styles.field}>
-          <span className={styles.label}>{GATE_EDITOR_LABEL_NAME}</span>
+          <span className={styles.label}>{GATE_EDITOR_LABEL_NAME[lang]}</span>
           <input
             className={styles.input}
             type="text"
@@ -89,7 +92,7 @@ export function GateEditor({ onSubmit }: GateEditorProps): JSX.Element {
         </label>
 
         <label className={styles.field}>
-          <span className={styles.label}>{GATE_EDITOR_LABEL_REQUIRED}</span>
+          <span className={styles.label}>{GATE_EDITOR_LABEL_REQUIRED[lang]}</span>
           <input
             className={styles.input}
             type="number"
@@ -101,7 +104,7 @@ export function GateEditor({ onSubmit }: GateEditorProps): JSX.Element {
         </label>
 
         <label className={styles.field}>
-          <span className={styles.label}>{GATE_EDITOR_LABEL_WINDOW}</span>
+          <span className={styles.label}>{GATE_EDITOR_LABEL_WINDOW[lang]}</span>
           <input
             className={styles.input}
             type="number"
@@ -115,12 +118,12 @@ export function GateEditor({ onSubmit }: GateEditorProps): JSX.Element {
         {error !== null && <p className={styles.error}>{error}</p>}
 
         <button className={styles.submitButton} type="submit">
-          {MASTER_MODE_EMPTY_BUTTON}
+          {MASTER_MODE_EMPTY_BUTTON[lang]}
         </button>
       </form>
 
       <div className={styles.presets}>
-        {GATE_EDITOR_PRESETS.map((preset) => (
+        {GATE_EDITOR_PRESETS[lang].map((preset) => (
           <button
             key={preset}
             type="button"

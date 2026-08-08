@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { differenceInCalendarDays, parseISO } from 'date-fns'
 import type { GateDef } from '../domain/types'
 import { useGameStore, setLastStampReactionIndex } from '../store/useGameStore'
-import { courses } from '../content/courses'
+import { courses, gateDisplayName } from '../content/courses'
 import { journalEntries } from '../content/journal'
 import { dayKey } from '../domain/day'
 import { judgeCumulative, isClockRollback } from '../domain/judge'
 import { findNextGate } from '../domain/progression'
 import { beltName } from '../domain/beltLabels'
-import { SETTINGS_CLOCK_ROLLBACK_WARNING } from '../content/microcopy'
+import { SETTINGS_CLOCK_ROLLBACK_WARNING, FREE_SLOT_UNLOCK_NOTICE, GATE_NOT_FOUND } from '../content/microcopy'
 import { TopBar } from '../components/TopBar'
 import { GateCard } from '../components/GateCard'
 import { RetrainCard } from '../components/RetrainCard'
@@ -18,8 +18,6 @@ import { TrainingPath } from '../components/TrainingPath'
 import { GateEditor } from './GateEditor'
 import { MasterMode } from './MasterMode'
 import styles from './Dojang.module.css'
-
-const FREE_SLOT_UNLOCK_NOTICE = '자유 관문이 열렸다'
 
 function totalStamps(gates: Record<string, { stamps: string[] }>): number {
   return Object.values(gates).reduce((sum, g) => sum + g.stamps.length, 0)
@@ -46,6 +44,7 @@ export function resolveEffectiveGate(
 /** 도장(홈) 화면 — 앱의 핵심 루프. */
 export function Dojang(): JSX.Element {
   const save = useGameStore((s) => s.save)
+  const lang = useGameStore((s) => s.lang)
   const lastReactionIndex = useGameStore((s) => s.lastStampReactionIndex)
   const stampToday = useGameStore((s) => s.stampToday)
   const retrainCurrentGate = useGameStore((s) => s.retrainCurrentGate)
@@ -81,7 +80,7 @@ export function Dojang(): JSX.Element {
   }, [save.currentGateId, save.masterMode.active])
 
   if (currentGate === undefined || currentGateState === undefined) {
-    return <div className={styles.screen}>관문 정보를 찾을 수 없다.</div>
+    return <div className={styles.screen}>{GATE_NOT_FOUND[lang]}</div>
   }
 
   const freeGateDef = save.freeGateDefs[currentGate.id]
@@ -102,7 +101,7 @@ export function Dojang(): JSX.Element {
   const nextGateAfterCurrent = findNextGate(courses, currentGate)
   const nextBeltName =
     currentGate.kind === 'boss' && nextGateAfterCurrent !== undefined
-      ? beltName(nextGateAfterCurrent.belt)
+      ? beltName(nextGateAfterCurrent.belt, lang)
       : undefined
 
   const promotedToBelt =
@@ -117,7 +116,7 @@ export function Dojang(): JSX.Element {
   function promotionUnlockNotice(): string | undefined {
     if (revealedGate === undefined) return undefined
     const nextGate = findNextGate(courses, revealedGate)
-    if (nextGate?.kind === 'free') return FREE_SLOT_UNLOCK_NOTICE
+    if (nextGate?.kind === 'free') return FREE_SLOT_UNLOCK_NOTICE[lang]
     return undefined
   }
 
@@ -129,9 +128,10 @@ export function Dojang(): JSX.Element {
         masterModeDays={save.masterMode.active ? masterModeDays : undefined}
         onOpenJournal={openJournal}
         onOpenSettings={openSettings}
+        lang={lang}
       />
 
-      {clockRolledBack && <p className={styles.clockWarning}>{SETTINGS_CLOCK_ROLLBACK_WARNING}</p>}
+      {clockRolledBack && <p className={styles.clockWarning}>{SETTINGS_CLOCK_ROLLBACK_WARNING[lang]}</p>}
 
       {save.masterMode.active ? (
         <MasterMode
@@ -146,11 +146,12 @@ export function Dojang(): JSX.Element {
           onStampCustomGate={stampCustomGate}
           onRetrainCustomGate={retrainCustomGate}
           onSaveJournalEntry={addMasterJournalEntry}
+          lang={lang}
         />
       ) : needsFreeGateSetup ? (
-        <GateEditor onSubmit={configureFreeGate} />
+        <GateEditor onSubmit={configureFreeGate} lang={lang} />
       ) : isFailed ? (
-        <RetrainCard attempts={currentGateState.attempts} onRetrain={retrainCurrentGate} />
+        <RetrainCard attempts={currentGateState.attempts} onRetrain={retrainCurrentGate} lang={lang} />
       ) : (
         <GateCard
           gate={effectiveGate}
@@ -161,6 +162,7 @@ export function Dojang(): JSX.Element {
           lastReactionIndex={lastReactionIndex}
           onReactionShown={setLastStampReactionIndex}
           nextBeltName={nextBeltName}
+          lang={lang}
         />
       )}
 
@@ -171,6 +173,7 @@ export function Dojang(): JSX.Element {
           clearedGateIds={
             new Set(Object.entries(save.gates).filter(([, g]) => g.status === 'cleared').map(([id]) => id))
           }
+          lang={lang}
         />
       )}
 
@@ -178,19 +181,21 @@ export function Dojang(): JSX.Element {
         <PromotionOverlay
           fromBelt={revealedGate.belt}
           toBelt={promotedToBelt}
-          journalTitle={revealedJournal.title}
-          journalText={revealedJournal.text}
+          journalTitle={revealedJournal.title[lang]}
+          journalText={revealedJournal.text[lang]}
           unlockNotice={promotionUnlockNotice()}
           onClose={closeReveal}
+          lang={lang}
         />
       )}
 
       {revealedGate !== undefined && revealedJournal !== undefined && !isPromotion && (
         <JournalRevealCard
-          gateName={revealedGate.name ?? '나만의 관문'}
-          journalTitle={revealedJournal.title}
-          journalText={revealedJournal.text}
+          gateName={gateDisplayName(revealedGate, lang)}
+          journalTitle={revealedJournal.title[lang]}
+          journalText={revealedJournal.text[lang]}
           onClose={closeReveal}
+          lang={lang}
         />
       )}
     </div>

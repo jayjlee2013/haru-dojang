@@ -1,4 +1,5 @@
-import type { GateDef } from '../domain/types'
+import type { GateDef, Lang } from '../domain/types'
+import { FREE_GATE_DEFAULT_NAME } from './microcopy'
 
 export const courses: GateDef[] = [
   // 흰띠 — 문을 여는 수련 (튜토리얼)
@@ -7,7 +8,7 @@ export const courses: GateDef[] = [
     belt: 'white',
     order: 1,
     kind: 'normal',
-    name: '물 한 컵 마시기',
+    name: { ko: '물 한 컵 마시기', en: 'Drink a cup of water' },
     rule: { type: 'cumulative', required: 3, windowDays: 5 },
     journalId: 'W1'
   },
@@ -16,7 +17,7 @@ export const courses: GateDef[] = [
     belt: 'white',
     order: 2,
     kind: 'normal',
-    name: '창문 열고 환기 1분',
+    name: { ko: '창문 열고 환기 1분', en: 'Open a window, air out for 1 min' },
     rule: { type: 'cumulative', required: 3, windowDays: 5 },
     journalId: 'W2'
   },
@@ -25,7 +26,7 @@ export const courses: GateDef[] = [
     belt: 'white',
     order: 3,
     kind: 'normal',
-    name: '이불 정리하고 나오기',
+    name: { ko: '이불 정리하고 나오기', en: 'Make the bed before leaving it' },
     rule: { type: 'cumulative', required: 4, windowDays: 6 },
     journalId: 'W3'
   },
@@ -34,7 +35,7 @@ export const courses: GateDef[] = [
     belt: 'white',
     order: 4,
     kind: 'normal',
-    name: '잠들기 전 스트레칭 2분',
+    name: { ko: '잠들기 전 스트레칭 2분', en: 'Stretch 2 min before bed' },
     rule: { type: 'cumulative', required: 4, windowDays: 6 },
     journalId: 'W4'
   },
@@ -43,7 +44,7 @@ export const courses: GateDef[] = [
     belt: 'white',
     order: 5,
     kind: 'boss',
-    name: '아침 3종 세트 (물 + 환기 + 이불)',
+    name: { ko: '아침 3종 세트 (물 + 환기 + 이불)', en: 'Morning trio (water + air + bed)' },
     rule: { type: 'consecutive', days: 3 },
     journalId: 'W-BOSS'
   },
@@ -54,7 +55,7 @@ export const courses: GateDef[] = [
     belt: 'yellow',
     order: 1,
     kind: 'normal',
-    name: '10분 동네 한 바퀴',
+    name: { ko: '10분 동네 한 바퀴', en: '10-min walk around the block' },
     rule: { type: 'cumulative', required: 5, windowDays: 7 },
     journalId: 'Y1'
   },
@@ -63,7 +64,7 @@ export const courses: GateDef[] = [
     belt: 'yellow',
     order: 2,
     kind: 'normal',
-    name: '책상 위 3분 정리',
+    name: { ko: '책상 위 3분 정리', en: '3-min desk tidy' },
     rule: { type: 'cumulative', required: 5, windowDays: 7 },
     journalId: 'Y2'
   },
@@ -72,7 +73,7 @@ export const courses: GateDef[] = [
     belt: 'yellow',
     order: 3,
     kind: 'normal',
-    name: '아침에 휴대폰 보기 전 물 한 컵',
+    name: { ko: '아침에 휴대폰 보기 전 물 한 컵', en: 'Water before checking your phone' },
     rule: { type: 'cumulative', required: 5, windowDays: 7 },
     journalId: 'Y3'
   },
@@ -89,7 +90,7 @@ export const courses: GateDef[] = [
     belt: 'yellow',
     order: 5,
     kind: 'normal',
-    name: '하루 한 줄 일기',
+    name: { ko: '하루 한 줄 일기', en: 'One line a day' },
     rule: { type: 'cumulative', required: 5, windowDays: 7 },
     journalId: 'Y5'
   },
@@ -98,7 +99,7 @@ export const courses: GateDef[] = [
     belt: 'yellow',
     order: 6,
     kind: 'boss',
-    name: '산책 + 정리 + 한 줄 일기',
+    name: { ko: '산책 + 정리 + 한 줄 일기', en: 'Walk + tidy + one line' },
     rule: { type: 'consecutive', days: 3 },
     journalId: 'Y-BOSS'
   },
@@ -109,7 +110,7 @@ export const courses: GateDef[] = [
     belt: 'green',
     order: 1,
     kind: 'normal',
-    name: '15분 걷기 (동네 밖까지)',
+    name: { ko: '15분 걷기 (동네 밖까지)', en: '15-min walk (past the block)' },
     rule: { type: 'cumulative', required: 5, windowDays: 7 },
     journalId: 'G1'
   },
@@ -118,7 +119,7 @@ export const courses: GateDef[] = [
     belt: 'green',
     order: 2,
     kind: 'normal',
-    name: '밥 먹을 때 화면 끄기',
+    name: { ko: '밥 먹을 때 화면 끄기', en: 'Screen off at meals' },
     rule: { type: 'cumulative', required: 5, windowDays: 7 },
     journalId: 'G2'
   },
@@ -135,7 +136,7 @@ export const courses: GateDef[] = [
     belt: 'green',
     order: 4,
     kind: 'normal',
-    name: '자기 전 내일 할 일 딱 하나 적기',
+    name: { ko: '자기 전 내일 할 일 딱 하나 적기', en: 'Write tomorrow\'s one task before bed' },
     rule: { type: 'cumulative', required: 5, windowDays: 7 },
     journalId: 'G4'
   },
@@ -152,7 +153,7 @@ export const courses: GateDef[] = [
     belt: 'green',
     order: 6,
     kind: 'boss',
-    name: '걷기 + 화면 끄기 + 내일 하나 적기',
+    name: { ko: '걷기 + 화면 끄기 + 내일 하나 적기', en: 'Walk + screen off + tomorrow\'s one' },
     rule: { type: 'consecutive', days: 3 },
     journalId: 'G-BOSS'
   },
@@ -163,7 +164,7 @@ export const courses: GateDef[] = [
     belt: 'black',
     order: 1,
     kind: 'normal',
-    name: '30분 걷기 또는 운동',
+    name: { ko: '30분 걷기 또는 운동', en: '30-min walk or workout' },
     rule: { type: 'cumulative', required: 5, windowDays: 7 },
     journalId: 'B1'
   },
@@ -180,7 +181,7 @@ export const courses: GateDef[] = [
     belt: 'black',
     order: 3,
     kind: 'normal',
-    name: '일주일에 하루 "화면 없는 저녁"',
+    name: { ko: '일주일에 하루 "화면 없는 저녁"', en: 'One "screen-free evening" a week' },
     rule: { type: 'cumulative', required: 2, windowDays: 10 },
     journalId: 'B3'
   },
@@ -197,7 +198,7 @@ export const courses: GateDef[] = [
     belt: 'black',
     order: 5,
     kind: 'normal',
-    name: '다섯 줄 일기 (한 줄 → 다섯 줄)',
+    name: { ko: '다섯 줄 일기 (한 줄 → 다섯 줄)', en: 'Five lines (one line → five)' },
     rule: { type: 'cumulative', required: 7, windowDays: 10 },
     journalId: 'B5'
   },
@@ -214,8 +215,18 @@ export const courses: GateDef[] = [
     belt: 'black',
     order: 7,
     kind: 'boss',
-    name: '나의 하루 의식 (직접 고른 3가지 묶음)',
+    name: { ko: '나의 하루 의식 (직접 고른 3가지 묶음)', en: 'My daily ritual (your own set of 3)' },
     rule: { type: 'consecutive', days: 5 },
     journalId: 'B-FINAL-BOSS'
   }
 ]
+
+/**
+ * 관문 표시용 이름을 언어에 맞게 고른다.
+ * 빌트인 관문은 LocalizedText, 자유/커스텀 관문은 사용자가 입력한 string.
+ * 이름이 아예 없으면(자유 슬롯 미설정) 자유 관문 기본 이름으로 대체한다.
+ */
+export function gateDisplayName(gate: GateDef, lang: Lang): string {
+  if (gate.name === undefined) return FREE_GATE_DEFAULT_NAME[lang]
+  return typeof gate.name === 'string' ? gate.name : gate.name[lang]
+}

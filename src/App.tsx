@@ -12,13 +12,14 @@ export default function App(): JSX.Element {
   const journalUnlocked = useGameStore((s) => s.save.journalUnlocked)
   const closeJournal = useGameStore((s) => s.closeJournal)
   const closeSettings = useGameStore((s) => s.closeSettings)
+  const lang = useGameStore((s) => s.lang)
 
   if (!onboardingCompleted) {
     return <Onboarding onComplete={completeOnboarding} />
   }
 
   if (currentScreen === 'journal') {
-    return <Journal journalUnlocked={journalUnlocked} onBack={closeJournal} />
+    return <Journal journalUnlocked={journalUnlocked} onBack={closeJournal} lang={lang} />
   }
 
   if (currentScreen === 'settings') {

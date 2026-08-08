@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import type { Lang } from '../domain/types'
 import {
   STAMP_REACTIONS,
   ALREADY_STAMPED_BUTTON,
   ALREADY_STAMPED_SUBTEXT,
+  STAMP_TODAY_BUTTON,
   masterReactionLine
 } from '../content/microcopy'
 import { stampContext } from '../domain/judge'
@@ -20,6 +22,7 @@ interface StampButtonProps {
   /** 오늘 도장을 찍기 직전의 stamps(오늘 미포함)와 오늘 dayKey — 관장 문맥 반응 판단용. */
   stamps: string[]
   today: string
+  lang: Lang
 }
 
 /**
@@ -32,7 +35,8 @@ export function StampButton({
   lastReactionIndex,
   onReactionShown,
   stamps,
-  today
+  today,
+  lang
 }: StampButtonProps): JSX.Element {
   const [isAnimating, setIsAnimating] = useState(false)
   const [reaction, setReaction] = useState<string | null>(null)
@@ -46,11 +50,12 @@ export function StampButton({
     // 연속·복귀 같은 특별한 순간엔 관장이 먼저 말을 건네고, 평범한 날은 기존 랜덤 반응.
     const context = stampContext(stamps, today)
     if (context === 'normal') {
-      const index = pickNonRepeatingIndex(STAMP_REACTIONS.length, lastReactionIndex)
+      const pool = STAMP_REACTIONS[lang]
+      const index = pickNonRepeatingIndex(pool.length, lastReactionIndex)
       onReactionShown(index)
-      setReaction(STAMP_REACTIONS[index])
+      setReaction(pool[index])
     } else {
-      setReaction(masterReactionLine(context))
+      setReaction(masterReactionLine(context, lang))
     }
 
     window.setTimeout(() => setIsAnimating(false), STAMP_ANIMATION_MS)
@@ -61,12 +66,12 @@ export function StampButton({
     return (
       <div className={styles.wrapper}>
         <button className={styles.doneButton} disabled>
-          {ALREADY_STAMPED_BUTTON}
+          {ALREADY_STAMPED_BUTTON[lang]}
         </button>
         {reaction !== null ? (
           <p className={styles.reaction}>{reaction}</p>
         ) : (
-          <p className={styles.subtext}>{ALREADY_STAMPED_SUBTEXT}</p>
+          <p className={styles.subtext}>{ALREADY_STAMPED_SUBTEXT[lang]}</p>
         )}
       </div>
     )
@@ -78,7 +83,7 @@ export function StampButton({
         className={`${styles.stampButton} ${isAnimating ? styles.stamping : ''}`}
         onClick={handleClick}
       >
-        오늘 도장 찍기
+        {STAMP_TODAY_BUTTON[lang]}
       </button>
       {reaction !== null && <p className={styles.reaction}>{reaction}</p>}
     </div>

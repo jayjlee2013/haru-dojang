@@ -3,12 +3,20 @@
 // ---- 콘텐츠 (정적, content/) ----
 export type Belt = 'white' | 'yellow' | 'green' | 'black' | 'master' // master = 무한 수련
 
+// ---- i18n (한/영 지원) ----
+export type Lang = 'ko' | 'en'
+export interface LocalizedText {
+  ko: string
+  en: string
+}
+
 export interface GateDef {
   id: string // 'W1', 'Y-BOSS', 'B3' ... 자유 슬롯은 'Y4-free'
   belt: Belt
   order: number
   kind: 'normal' | 'boss' | 'free' // free = 사용자 정의 슬롯
-  name?: string // free면 없음 (사용자가 정함)
+  // 기본 관문(빌트인)은 LocalizedText, 자유/커스텀 관문은 사용자가 입력한 string. free면 없음.
+  name?: string | LocalizedText
   rule: GateRule
   journalId: string // 클리어 시 열리는 일지 조각
 }

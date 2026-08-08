@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import type { Belt } from '../domain/types'
-import { PROMOTION_MESSAGES } from '../content/microcopy'
+import type { Belt, Lang } from '../domain/types'
+import { PROMOTION_MESSAGES, ONBOARDING_NEXT_BUTTON } from '../content/microcopy'
 import styles from './PromotionOverlay.module.css'
 
 const BELT_COLOR_VAR: Record<Belt, string> = {
@@ -33,6 +33,7 @@ interface PromotionOverlayProps {
   journalText: string
   unlockNotice?: string
   onClose: () => void
+  lang: Lang
 }
 
 /**
@@ -46,10 +47,11 @@ export function PromotionOverlay({
   journalTitle,
   journalText,
   unlockNotice,
-  onClose
+  onClose,
+  lang
 }: PromotionOverlayProps): JSX.Element {
   const [transitioned, setTransitioned] = useState(false)
-  const message = PROMOTION_MESSAGES[toBelt]
+  const message = PROMOTION_MESSAGES[toBelt]?.[lang]
 
   useEffect(() => {
     const timer = window.setTimeout(() => setTransitioned(true), TRANSITION_DELAY_MS)
@@ -72,7 +74,7 @@ export function PromotionOverlay({
       </article>
       {unlockNotice !== undefined && <p className={styles.unlockNotice}>{unlockNotice}</p>}
       <button className={styles.button} onClick={onClose}>
-        다음
+        {ONBOARDING_NEXT_BUTTON[lang]}
       </button>
     </div>
   )
