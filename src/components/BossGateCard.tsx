@@ -91,6 +91,8 @@ export function BossGateCard({
         onStamp={onStamp}
         lastReactionIndex={lastReactionIndex}
         onReactionShown={onReactionShown}
+        stamps={gateState.stamps}
+        today={today}
       />
     </section>
   )

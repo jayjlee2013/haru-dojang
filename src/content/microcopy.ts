@@ -15,6 +15,27 @@ export const STAMP_REACTIONS: readonly string[] = [
   '물 흐르듯. 내일 또.'
 ]
 
+// 관장이 먼저 건네는 말: 특별한 순간(연속·복귀)에만. 06문서 톤(짧고 담백, 무뚝뚝하나 온기)을 따른다.
+const MASTER_RETURN_LINES: readonly string[] = [
+  '다시 왔구나. 수련은 이어 붙이는 것이다.',
+  '하루 쉬었다고 무너지지 않는다. 봐라, 여기 있지 않느냐.',
+  '어제는 어제고, 오늘은 오늘이다.',
+  '돌아온 발걸음이 가장 무겁다. 그걸 네가 뗐다.'
+]
+
+const MASTER_STREAK_LINES: readonly string[] = [
+  '요즘 발이 가볍구나.',
+  '연달아 오는군. 이런 날이 수련을 만든다.',
+  '멈추지 않는 자를 이길 방법은 없다.',
+  '몸이 리듬을 기억하기 시작했다.'
+]
+
+/** 관장의 문맥 반응 문구를 하나 고른다 (return/streak 순간에만 호출). */
+export function masterReactionLine(context: 'return' | 'streak'): string {
+  const pool = context === 'return' ? MASTER_RETURN_LINES : MASTER_STREAK_LINES
+  return pool[Math.floor(Math.random() * pool.length)]
+}
+
 // 섹션 2: 오늘 이미 찍음 상태
 export const ALREADY_STAMPED_BUTTON = '오늘 수련 완료'
 export const ALREADY_STAMPED_SUBTEXT = '내일 새벽 4시에 새 하루가 열린다'

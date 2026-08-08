@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { STAMP_REACTIONS, ALREADY_STAMPED_BUTTON, ALREADY_STAMPED_SUBTEXT } from '../content/microcopy'
+import {
+  STAMP_REACTIONS,
+  ALREADY_STAMPED_BUTTON,
+  ALREADY_STAMPED_SUBTEXT,
+  masterReactionLine
+} from '../content/microcopy'
+import { stampContext } from '../domain/judge'
 import { pickNonRepeatingIndex } from '../store/useGameStore'
 import styles from './StampButton.module.css'
 
@@ -11,6 +17,9 @@ interface StampButtonProps {
   onStamp: () => void
   lastReactionIndex: number | null
   onReactionShown: (index: number) => void
+  /** 오늘 도장을 찍기 직전의 stamps(오늘 미포함)와 오늘 dayKey — 관장 문맥 반응 판단용. */
+  stamps: string[]
+  today: string
 }
 
 /**
@@ -21,7 +30,9 @@ export function StampButton({
   alreadyStampedToday,
   onStamp,
   lastReactionIndex,
-  onReactionShown
+  onReactionShown,
+  stamps,
+  today
 }: StampButtonProps): JSX.Element {
   const [isAnimating, setIsAnimating] = useState(false)
   const [reaction, setReaction] = useState<string | null>(null)
@@ -32,9 +43,15 @@ export function StampButton({
     setIsAnimating(true)
     onStamp()
 
-    const index = pickNonRepeatingIndex(STAMP_REACTIONS.length, lastReactionIndex)
-    onReactionShown(index)
-    setReaction(STAMP_REACTIONS[index])
+    // 연속·복귀 같은 특별한 순간엔 관장이 먼저 말을 건네고, 평범한 날은 기존 랜덤 반응.
+    const context = stampContext(stamps, today)
+    if (context === 'normal') {
+      const index = pickNonRepeatingIndex(STAMP_REACTIONS.length, lastReactionIndex)
+      onReactionShown(index)
+      setReaction(STAMP_REACTIONS[index])
+    } else {
+      setReaction(masterReactionLine(context))
+    }
 
     window.setTimeout(() => setIsAnimating(false), STAMP_ANIMATION_MS)
     window.setTimeout(() => setReaction(null), REACTION_DISPLAY_MS)

@@ -93,6 +93,25 @@ export function judgeConsecutive(
   return { cleared: streak >= rule.days, streak }
 }
 
+export type StampContext = 'return' | 'streak' | 'normal'
+
+/**
+ * 오늘 도장을 찍기 직전 상태(stamps에 오늘은 아직 없음)로 관장의 반응 맥락을 판단한다.
+ * return = 어제 걸렀다가 돌아옴, streak = 오늘 포함 3일 이상 연속, normal = 그 외(첫날 포함).
+ */
+export function stampContext(stamps: string[], today: string): StampContext {
+  const set = new Set(stamps)
+  const yesterday = addDayKey(today, -1)
+  if (set.size > 0 && !set.has(yesterday)) return 'return'
+  let streak = 1
+  let cursor = yesterday
+  while (set.has(cursor)) {
+    streak += 1
+    cursor = addDayKey(cursor, -1)
+  }
+  return streak >= 3 ? 'streak' : 'normal'
+}
+
 /** rule 종류에 따라 누적/연속 판정으로 위임한다. */
 export function judgeGate(state: GateState, rule: GateRule, today: string): JudgeResult {
   if (rule.type === 'cumulative') {
