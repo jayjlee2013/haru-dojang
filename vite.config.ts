@@ -34,10 +34,10 @@ export default defineConfig(({ command }) => ({
           .replace(/(property="og:title" content=")[^"]*(")/, `$1${EN_TITLE}$2`)
           .replace(/(property="og:description" content=")[^"]*(")/, `$1${EN_DESCRIPTION}$2`)
           .replace(/(property="og:url" content=")[^"]*(")/, `$1${enUrl}$2`)
-          .replace(/(property="og:image" content=")[^"]*(")/, `$1${enUrl}og.png$2`)
+          .replace(/(property="og:image" content=")[^"]*(")/, `$1${enUrl}og-en.png$2`)
           .replace(/(name="twitter:title" content=")[^"]*(")/, `$1${EN_TITLE}$2`)
           .replace(/(name="twitter:description" content=")[^"]*(")/, `$1${EN_DESCRIPTION}$2`)
-          .replace(/(name="twitter:image" content=")[^"]*(")/, `$1${enUrl}og.png$2`)
+          .replace(/(name="twitter:image" content=")[^"]*(")/, `$1${enUrl}og-en.png$2`)
       }
     },
     VitePWA({
