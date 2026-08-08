@@ -29,6 +29,8 @@
 | [04-tech-spec.md](docs/04-tech-spec.md) | 기술 스택, 데이터 모델, 판정 엔진 명세, 엣지 케이스 |
 | [05-roadmap.md](docs/05-roadmap.md) | 구현 마일스톤(M1~M5)과 완료 검증 기준, 모델 분담 |
 | [06-microcopy.md](docs/06-microcopy.md) | 앱 전체 마이크로카피 전집 (관장 톤 문구 원본) |
+| [07-i18n-en-content.md](docs/07-i18n-en-content.md) | 영어판 번역 원본 (일지·마이크로카피 전문) |
+| [08-reward-design-notes.md](docs/08-reward-design-notes.md) | 보상 설계 개선 조사 (**미구현** — 착수 시 이 문서부터) |
 
 ## 확정된 핵심 결정
 
