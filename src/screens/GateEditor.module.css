@@ -61,6 +61,38 @@
   cursor: pointer;
 }
 
+.suggestedName {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin: 8px 0 4px;
+}
+
+.suggestedCondition {
+  font-size: 14px;
+  color: var(--color-ink-soft);
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.suggestActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.secondaryButton {
+  flex: 1;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 .presets {
   display: flex;
   flex-wrap: wrap;

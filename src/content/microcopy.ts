@@ -183,6 +183,19 @@ export const GATE_EDITOR_ERROR_WINDOW_TOO_SHORT: Record<Lang, string> = {
   ko: '횟수보다 기간이 짧다. 하루에 한 번씩이 최대다',
   en: "The window's shorter than the count. Once a day is the max."
 }
+// 자동 추천 모드 — 정하기 어려운 사람을 위해 관장이 프리셋 하나를 먼저 내민다.
+export const GATE_EDITOR_SUGGEST_TITLE: Record<Lang, string> = {
+  ko: '관장이 정해준 관문',
+  en: "The master's pick"
+}
+export const GATE_EDITOR_SUGGEST_GUIDE: Record<Lang, string> = {
+  ko: '정하기 어렵다면, 이걸로.',
+  en: "Can't decide? Take this one."
+}
+export const GATE_EDITOR_USE_THIS: Record<Lang, string> = { ko: '이걸로 한다', en: 'Use this' }
+export const GATE_EDITOR_TRY_ANOTHER: Record<Lang, string> = { ko: '다른 걸로', en: 'Something else' }
+export const GATE_EDITOR_CHOOSE_MYSELF: Record<Lang, string> = { ko: '직접 정한다', en: "I'll decide" }
+
 export const GATE_EDITOR_PRESETS: Record<Lang, readonly string[]> = {
   ko: [
     '10분 책 읽기',

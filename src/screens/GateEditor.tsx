@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Lang } from '../domain/types'
+import { pickNonRepeatingIndex } from '../store/useGameStore'
 import {
   GATE_EDITOR_TITLE,
   GATE_EDITOR_GUIDE,
@@ -9,6 +10,12 @@ import {
   GATE_EDITOR_ERROR_NAME_REQUIRED,
   GATE_EDITOR_ERROR_WINDOW_TOO_SHORT,
   GATE_EDITOR_PRESETS,
+  GATE_EDITOR_SUGGEST_TITLE,
+  GATE_EDITOR_SUGGEST_GUIDE,
+  GATE_EDITOR_USE_THIS,
+  GATE_EDITOR_TRY_ANOTHER,
+  GATE_EDITOR_CHOOSE_MYSELF,
+  cumulativeConditionText,
   MASTER_MODE_EMPTY_BUTTON
 } from '../content/microcopy'
 import styles from './GateEditor.module.css'
@@ -45,11 +52,18 @@ function clampWindowDays(value: number): number {
   return Math.min(WINDOW_MAX, Math.max(1, value))
 }
 
+type Mode = 'suggest' | 'form'
+
 /**
  * 자유 관문 / 무한 수련 모드 공용 "관문 만들기" 화면.
- * 필드 3개(이름/횟수/기간)만 받는다 — 06문서 섹션8 스펙 그대로.
+ * 스스로 정하기 어려운 사람을 위해 프리셋 하나를 먼저 추천하고(suggest 모드),
+ * "직접 정한다"를 누르면 기존 3필드 폼(form 모드)이 열린다 — 06문서 섹션8 스펙.
  */
 export function GateEditor({ onSubmit, lang }: GateEditorProps): JSX.Element {
+  const [mode, setMode] = useState<Mode>('suggest')
+  const [suggestIndex, setSuggestIndex] = useState(() =>
+    pickNonRepeatingIndex(GATE_EDITOR_PRESETS[lang].length, null)
+  )
   const [name, setName] = useState('')
   const [required, setRequired] = useState(DEFAULT_REQUIRED)
   const [windowDays, setWindowDays] = useState(DEFAULT_WINDOW_DAYS)
@@ -62,6 +76,15 @@ export function GateEditor({ onSubmit, lang }: GateEditorProps): JSX.Element {
     setError(null)
   }
 
+  function handleTryAnother(): void {
+    setSuggestIndex((prev) => pickNonRepeatingIndex(GATE_EDITOR_PRESETS[lang].length, prev))
+  }
+
+  function handleUseSuggested(): void {
+    const preset = GATE_EDITOR_PRESETS[lang][suggestIndex]
+    onSubmit(preset, DEFAULT_REQUIRED, DEFAULT_WINDOW_DAYS)
+  }
+
   function handleSubmit(e: React.FormEvent): void {
     e.preventDefault()
     const trimmedName = name.trim()
@@ -72,6 +95,33 @@ export function GateEditor({ onSubmit, lang }: GateEditorProps): JSX.Element {
     }
     setError(null)
     onSubmit(trimmedName, required, windowDays)
+  }
+
+  if (mode === 'suggest') {
+    const suggestedName = GATE_EDITOR_PRESETS[lang][suggestIndex]
+    return (
+      <section className={styles.card}>
+        <h2 className={styles.title}>{GATE_EDITOR_SUGGEST_TITLE[lang]}</h2>
+        <p className={styles.guide}>{GATE_EDITOR_SUGGEST_GUIDE[lang]}</p>
+
+        <p className={styles.suggestedName}>{suggestedName}</p>
+        <p className={styles.suggestedCondition}>
+          {cumulativeConditionText(DEFAULT_REQUIRED, DEFAULT_WINDOW_DAYS, lang)}
+        </p>
+
+        <button className={styles.submitButton} type="button" onClick={handleUseSuggested}>
+          {GATE_EDITOR_USE_THIS[lang]}
+        </button>
+        <div className={styles.suggestActions}>
+          <button className={styles.secondaryButton} type="button" onClick={handleTryAnother}>
+            {GATE_EDITOR_TRY_ANOTHER[lang]}
+          </button>
+          <button className={styles.secondaryButton} type="button" onClick={() => setMode('form')}>
+            {GATE_EDITOR_CHOOSE_MYSELF[lang]}
+          </button>
+        </div>
+      </section>
+    )
   }
 
   return (
