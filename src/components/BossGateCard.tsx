@@ -1,5 +1,5 @@
 import type { GateDef, GateState, Lang } from '../domain/types'
-import { judgeConsecutive, judgeCumulative } from '../domain/judge'
+import { addDayKey, judgeConsecutive, judgeCumulative } from '../domain/judge'
 import { gateDisplayName } from '../content/courses'
 import { StampButton } from './StampButton'
 import { ProgressSegments } from './ProgressSegments'
@@ -75,7 +75,14 @@ function ConsecutiveBossCard({
 }): JSX.Element {
   const { streak, cleared } = judgeConsecutive(gateState, rule, today)
   const alreadyStampedToday = gateState.stamps.includes(today)
-  const wasBroken = gateState.attempts >= 1 && streak === 0 && !alreadyStampedToday
+  // attempts는 재수련(retrainGate) 호출로만 늘어나는데, 연속형 보스는 재수련 버튼이 없어
+  // 영원히 0이다. "끊김" 여부는 attempts가 아니라 마지막 도장 날짜로 직접 판단해야 한다:
+  // 어제까지 이어져 있었다면(오늘 도장만 찍으면 이어짐) 끊긴 게 아니라 "계속 중"이다.
+  const lastStamp = gateState.stamps[gateState.stamps.length - 1]
+  const yesterday = addDayKey(today, -1)
+  const isFreshEntry = gateState.stamps.length === 0
+  const wasBroken =
+    !cleared && streak === 0 && !alreadyStampedToday && lastStamp !== undefined && lastStamp !== yesterday
 
   const circles = Array.from({ length: rule.days }, (_, i) => i < streak)
 
@@ -110,7 +117,7 @@ function ConsecutiveBossCard({
         </div>
       ) : (
         <>
-          {!cleared && streak === 0 && gateState.attempts === 0 && (
+          {!cleared && streak === 0 && isFreshEntry && (
             <p className={styles.entryNotice}>{entryNotice(rule, lang)}</p>
           )}
           {daySuccessMessage !== undefined && (

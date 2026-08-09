@@ -1,3 +1,6 @@
 node_modules
 dist
 *.log
+
+# 내부용 자료 (미션 목록 문서 등) — 공개 저장소에 올리지 않음
+internal/
