@@ -216,7 +216,10 @@ export const courses: GateDef[] = [
     order: 7,
     kind: 'boss',
     name: { ko: '나의 하루 의식 (직접 고른 3가지 묶음)', en: 'My daily ritual (your own set of 3)' },
-    rule: { type: 'consecutive', days: 5 },
+    // 원래 "5일 연속"이었으나, 고정된 주 2일 휴식 패턴에서는 최대 3일 연속밖에 안 나와
+    // 최종 보스를 영원히 통과할 수 없는 문제가 시뮬레이션으로 확인되어(2026-08-08) 누적형으로 변경.
+    // B5(다섯 줄 일기)와 같은 강도(10일/7번)로 맞춰 검은띠 내 일관성 유지.
+    rule: { type: 'cumulative', required: 7, windowDays: 10 },
     journalId: 'B-FINAL-BOSS'
   }
 ]

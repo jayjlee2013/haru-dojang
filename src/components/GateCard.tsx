@@ -53,11 +53,12 @@ export function GateCard({
   const alreadyStampedToday = gateState.stamps.includes(today)
   const gateName = gateDisplayName(gate, lang)
 
-  if (gate.rule.type === 'consecutive') {
+  // 라우팅 기준은 rule.type이 아니라 gate.kind — 보스 관문은 연속형이든 누적형이든
+  // 항상 보스 전용(어두운 톤) 화면으로 보여준다 (B-FINAL-BOSS가 누적형인 것과 무관하게).
+  if (gate.kind === 'boss') {
     return (
       <BossGateCard
         gate={gate}
-        rule={gate.rule}
         gateState={gateState}
         nextBeltName={nextBeltName}
         gateOrder={gateOrder}
@@ -70,9 +71,16 @@ export function GateCard({
     )
   }
 
-  const { count, deadline } = judgeCumulative(gateState, gate.rule, today)
+  // 보스가 아닌 관문(normal/free)은 courses.ts 상 전부 누적형이다. rule.type이 실제로
+  // consecutive일 일은 없지만, TS는 kind와 rule.type의 연관을 모르므로 방어적으로 좁힌다.
+  if (gate.rule.type !== 'cumulative') {
+    return <div className={styles.card}>{gateName}</div>
+  }
+  const rule = gate.rule
+
+  const { count, deadline } = judgeCumulative(gateState, rule, today)
   const remainingDays = daysBetween(today, deadline) + 1
-  const remainingRequired = gate.rule.required - count
+  const remainingRequired = rule.required - count
   const isDeadlineNear = remainingDays === remainingRequired && remainingRequired > 0
 
   return (
@@ -80,7 +88,7 @@ export function GateCard({
       <p className={styles.label}>{CURRENT_GATE_LABEL(gateOrder, lang)}</p>
       <h2 className={styles.name}>{gateName}</h2>
       <p className={styles.condition}>{gateConditionText(gate, lang)}</p>
-      <ProgressSegments filled={count} total={gate.rule.required} lang={lang} />
+      <ProgressSegments filled={count} total={rule.required} lang={lang} />
       <p className={styles.remaining}>{REMAINING_DAYS_LABEL(remainingDays, lang)}</p>
       {isDeadlineNear && <p className={styles.warning}>{DEADLINE_WARNING[lang]}</p>}
       <StampButton

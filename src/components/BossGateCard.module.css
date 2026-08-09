@@ -50,6 +50,18 @@
   margin: 0 0 14px;
 }
 
+.remaining {
+  font-size: 13px;
+  color: var(--boss-ink-soft);
+  margin: 12px 0 4px;
+}
+
+.warning {
+  font-size: 13px;
+  color: var(--boss-ink);
+  margin: 0 0 14px;
+}
+
 .daySuccess {
   font-size: 13px;
   color: var(--boss-ink-soft);
