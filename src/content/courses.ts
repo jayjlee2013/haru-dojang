@@ -169,10 +169,13 @@ export const courses: GateDef[] = [
     journalId: 'B1'
   },
   {
+    // id는 'B2-free' 그대로 유지 — 이미 이 관문에 도달한 저장 데이터가 있어도
+    // currentGateId/gates 키가 안 깨지도록. kind만 free→normal로 바꾸면 충분하다.
     id: 'B2-free',
     belt: 'black',
     order: 2,
-    kind: 'free',
+    kind: 'normal',
+    name: { ko: '혼자 밥 한 끼 제대로 차려 먹기', en: 'Cook yourself a proper meal' },
     rule: { type: 'cumulative', required: 5, windowDays: 7 },
     journalId: 'B2'
   },

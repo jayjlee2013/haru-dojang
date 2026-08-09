@@ -44,7 +44,7 @@
   `Promotion day. The black belt isn't a mark of completion.\nIt means "you can train alone now."\nWhich is why the black belt is the loneliest belt — and the freest.`
 - B1: `Cleared: 30-minute workout` /
   `From here on, I'm writing to a future master.\nYes. You. Reading this right now.`
-- B2: `Cleared: free gate A` /
+- B2: `Cleared: cook yourself a proper meal` /
   `You reading this far means two things.\nOne, you're black belt.\nTwo, I'm already gone.`
 - B3: `Cleared: screen-free evening` /
   `Did you notice? Your white-belt record and this journal's first page — they match.\nThe student who laughed at a cup of water — that story was always true.\nIt was every master's first page.`

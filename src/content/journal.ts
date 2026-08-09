@@ -182,7 +182,7 @@ export const journalEntries: JournalEntry[] = [
   {
     id: 'B2',
     belt: 'black',
-    title: { ko: '자유 관문 A 클리어', en: 'Cleared: free gate A' },
+    title: { ko: '혼자 밥 한 끼 클리어', en: 'Cleared: cook yourself a proper meal' },
     text: {
       ko: '네가 여기까지 읽었다는 건 두 가지를 뜻한다.\n하나, 너는 검은 띠다.\n둘, 나는 이미 떠났다.',
       en: 'You reading this far means two things.\nOne, you\'re black belt.\nTwo, I\'m already gone.'
