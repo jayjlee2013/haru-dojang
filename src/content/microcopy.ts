@@ -283,6 +283,24 @@ export const SETTINGS_CLOCK_ROLLBACK_WARNING: Record<Lang, string> = {
   ko: '기기의 날짜가 마지막 수련보다 과거입니다. 날짜를 확인해 주세요',
   en: "Your device's date is earlier than your last training. Please check the date"
 }
+export const SETTINGS_REMINDER_LABEL: Record<Lang, string> = {
+  ko: '매일 알림 걸기',
+  en: 'Set a daily reminder'
+}
+export const SETTINGS_REMINDER_SUBTEXT: Record<Lang, string> = {
+  ko: '앱은 알림을 보내지 않습니다. 고른 시각으로 폰 캘린더에 반복 일정을 하나 넣어 드립니다',
+  en: "The app never sends notifications. This adds one repeating event to your phone's calendar at the time you choose"
+}
+export const SETTINGS_REMINDER_BUTTON: Record<Lang, string> = {
+  ko: '캘린더에 넣기',
+  en: 'Add to calendar'
+}
+// 캘린더 앱 안에서 보일 문구 (앱 밖이라 짧게 — .ics 한 줄 75바이트 제한도 감안)
+export const REMINDER_EVENT_TITLE: Record<Lang, string> = { ko: '하루도장', en: 'Haru Dojang' }
+export const REMINDER_EVENT_DESCRIPTION: Record<Lang, string> = {
+  ko: '오늘의 도장을 찍을 시간입니다.',
+  en: "Time to make today's mark."
+}
 
 // 컴포넌트/화면에 직접 박혀 있던 문구
 export const FREE_GATE_DEFAULT_NAME: Record<Lang, string> = { ko: '나만의 관문', en: 'My own gate' }
