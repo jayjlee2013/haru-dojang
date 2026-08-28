@@ -36,7 +36,9 @@ export const courses: GateDef[] = [
     order: 4,
     kind: 'normal',
     name: { ko: '잠들기 전 스트레칭 2분', en: 'Stretch 2 min before bed' },
-    rule: { type: 'cumulative', required: 4, windowDays: 6 },
+    // "잠들기 전"처럼 하루 중 특정 시점에만 유효한 관문은, 이전 관문을 그 시점이 지나서
+    // 클리어하면 진입 첫날을 사실상 못 채운다. 일반 버퍼(2일)보다 1일 더 준다(2026-08-17).
+    rule: { type: 'cumulative', required: 4, windowDays: 7 },
     journalId: 'W4'
   },
   {
@@ -74,7 +76,8 @@ export const courses: GateDef[] = [
     order: 3,
     kind: 'normal',
     name: { ko: '아침에 휴대폰 보기 전 물 한 컵', en: 'Water before checking your phone' },
-    rule: { type: 'cumulative', required: 5, windowDays: 7 },
+    // W4와 같은 이유 — "아침에"는 진입 당일 오후/저녁이면 이미 못 채우는 조건이다.
+    rule: { type: 'cumulative', required: 5, windowDays: 8 },
     journalId: 'Y3'
   },
   {
@@ -137,7 +140,8 @@ export const courses: GateDef[] = [
     order: 4,
     kind: 'normal',
     name: { ko: '자기 전 내일 할 일 딱 하나 적기', en: 'Write tomorrow\'s one task before bed' },
-    rule: { type: 'cumulative', required: 5, windowDays: 7 },
+    // W4와 같은 이유 — "자기 전"은 진입 당일이 이미 늦은 저녁이면 못 채우는 조건이다.
+    rule: { type: 'cumulative', required: 5, windowDays: 8 },
     journalId: 'G4'
   },
   {
