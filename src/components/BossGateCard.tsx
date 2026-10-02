@@ -75,6 +75,7 @@ function ConsecutiveBossCard({
 }): JSX.Element {
   const { streak, cleared } = judgeConsecutive(gateState, rule, today)
   const alreadyStampedToday = gateState.stamps.includes(today)
+  const notStartedYet = today < gateState.startedDayKey
   // attempts는 재수련(retrainGate) 호출로만 늘어나는데, 연속형 보스는 재수련 버튼이 없어
   // 영원히 0이다. "끊김" 여부는 attempts가 아니라 마지막 도장 날짜로 직접 판단해야 한다:
   // 어제까지 이어져 있었다면(오늘 도장만 찍으면 이어짐) 끊긴 게 아니라 "계속 중"이다.
@@ -117,7 +118,7 @@ function ConsecutiveBossCard({
         </div>
       ) : (
         <>
-          {!cleared && streak === 0 && isFreshEntry && (
+          {!cleared && streak === 0 && isFreshEntry && !notStartedYet && (
             <p className={styles.entryNotice}>{entryNotice(rule, lang)}</p>
           )}
           {daySuccessMessage !== undefined && (
@@ -128,6 +129,7 @@ function ConsecutiveBossCard({
 
       <StampButton
         alreadyStampedToday={alreadyStampedToday}
+        notStartedYet={notStartedYet}
         onStamp={onStamp}
         lastReactionIndex={lastReactionIndex}
         onReactionShown={onReactionShown}
@@ -169,6 +171,7 @@ function CumulativeBossCard({
   title: string
 }): JSX.Element {
   const alreadyStampedToday = gateState.stamps.includes(today)
+  const notStartedYet = today < gateState.startedDayKey
   const { count, deadline } = judgeCumulative(gateState, rule, today)
   const remainingDays = daysBetween(today, deadline) + 1
   const remainingRequired = rule.required - count
@@ -187,6 +190,7 @@ function CumulativeBossCard({
 
       <StampButton
         alreadyStampedToday={alreadyStampedToday}
+        notStartedYet={notStartedYet}
         onStamp={onStamp}
         lastReactionIndex={lastReactionIndex}
         onReactionShown={onReactionShown}

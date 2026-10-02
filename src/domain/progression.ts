@@ -1,4 +1,5 @@
 import type { GateDef, SaveData, GateState } from './types'
+import { addDayKey } from './judge'
 
 /**
  * 코스 정렬 순서: belt 순 → 같은 belt 내 order 순.
@@ -59,7 +60,9 @@ function withJournalUnlocked(unlocked: string[], journalId: string): string[] {
  *
  * - 현재 관문 → cleared (+ clearedAt)
  * - journalUnlocked에 journalId 추가 (멱등)
- * - 다음 관문 → unlock + active (startedDayKey = today)
+ * - 다음 관문 → unlock + active (startedDayKey = 내일. 클리어한 날 바로 다음 관문이
+ *   열려버리면 "오늘 미션 끝냈는데 새 미션이 또 오늘부터"가 되어버린다 — 다음 날부터
+ *   시작하게 하루 띄운다. 카드 자체는 바로 보여주되 도장은 내일부터 찍을 수 있다.)
  *   - 보스 클리어면 다음 belt의 1번 관문으로 승급
  *   - free 슬롯이면 active로 열되 이름은 store에서 별도 입력
  * - 최종 보스 클리어 → masterMode.active = true
@@ -100,7 +103,7 @@ export function clearGate(
     gates: {
       ...save.gates,
       [gateId]: clearedState,
-      [nextGate.id]: newActiveGate(today)
+      [nextGate.id]: newActiveGate(addDayKey(today, 1))
     },
     journalUnlocked
   }

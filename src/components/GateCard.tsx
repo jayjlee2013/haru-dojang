@@ -51,6 +51,7 @@ export function GateCard({
   lang
 }: GateCardProps): JSX.Element {
   const alreadyStampedToday = gateState.stamps.includes(today)
+  const notStartedYet = today < gateState.startedDayKey
   const gateName = gateDisplayName(gate, lang)
 
   // 라우팅 기준은 rule.type이 아니라 gate.kind — 보스 관문은 연속형이든 누적형이든
@@ -93,6 +94,7 @@ export function GateCard({
       {isDeadlineNear && <p className={styles.warning}>{DEADLINE_WARNING[lang]}</p>}
       <StampButton
         alreadyStampedToday={alreadyStampedToday}
+        notStartedYet={notStartedYet}
         onStamp={onStamp}
         lastReactionIndex={lastReactionIndex}
         onReactionShown={onReactionShown}

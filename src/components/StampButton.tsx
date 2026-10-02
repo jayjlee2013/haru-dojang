@@ -5,6 +5,8 @@ import {
   ALREADY_STAMPED_BUTTON,
   ALREADY_STAMPED_SUBTEXT,
   STAMP_TODAY_BUTTON,
+  GATE_NOT_STARTED_BUTTON,
+  GATE_NOT_STARTED_SUBTEXT,
   masterReactionLine
 } from '../content/microcopy'
 import { stampContext } from '../domain/judge'
@@ -16,6 +18,8 @@ const REACTION_DISPLAY_MS = 1500
 
 interface StampButtonProps {
   alreadyStampedToday: boolean
+  /** 관문이 클리어된 당일이라 아직 시작 전인 상태 (startedDayKey가 내일 이후). */
+  notStartedYet: boolean
   onStamp: () => void
   lastReactionIndex: number | null
   onReactionShown: (index: number) => void
@@ -31,6 +35,7 @@ interface StampButtonProps {
  */
 export function StampButton({
   alreadyStampedToday,
+  notStartedYet,
   onStamp,
   lastReactionIndex,
   onReactionShown,
@@ -60,6 +65,17 @@ export function StampButton({
 
     window.setTimeout(() => setIsAnimating(false), STAMP_ANIMATION_MS)
     window.setTimeout(() => setReaction(null), REACTION_DISPLAY_MS)
+  }
+
+  if (notStartedYet) {
+    return (
+      <div className={styles.wrapper}>
+        <button className={styles.doneButton} disabled>
+          {GATE_NOT_STARTED_BUTTON[lang]}
+        </button>
+        <p className={styles.subtext}>{GATE_NOT_STARTED_SUBTEXT[lang]}</p>
+      </div>
+    )
   }
 
   if (alreadyStampedToday) {

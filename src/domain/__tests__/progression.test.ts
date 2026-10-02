@@ -127,7 +127,9 @@ describe('clearGate — 상태 전이', () => {
     expect(next.journalUnlocked).toContain('W1')
     expect(next.gates['W2']).toBeDefined()
     expect(next.gates['W2'].status).toBe('active')
-    expect(next.gates['W2'].startedDayKey).toBe('2026-07-10')
+    // 다음 관문은 클리어한 당일이 아니라 다음 날부터 시작한다 — 같은 날 연쇄로
+    // 새 미션이 열리지 않도록.
+    expect(next.gates['W2'].startedDayKey).toBe('2026-07-11')
     expect(next.currentGateId).toBe('W2')
   })
 

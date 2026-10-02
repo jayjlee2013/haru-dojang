@@ -75,6 +75,12 @@ export const ALREADY_STAMPED_SUBTEXT: Record<Lang, string> = {
   ko: '내일 새벽 4시에 새 하루가 열린다',
   en: 'A new day opens at 4am tomorrow'
 }
+// 관문을 클리어한 바로 그날, 다음 관문의 카드는 보여주되 도장은 다음날부터 찍게 한다.
+export const GATE_NOT_STARTED_BUTTON: Record<Lang, string> = { ko: '내일부터', en: 'Starts tomorrow' }
+export const GATE_NOT_STARTED_SUBTEXT: Record<Lang, string> = {
+  ko: '오늘 몫은 이미 했다.',
+  en: 'You already did your part today.'
+}
 
 // 섹션 3: 기한 임박 경고
 export const DEADLINE_WARNING: Record<Lang, string> = {
